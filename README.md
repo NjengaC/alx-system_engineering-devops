@@ -1,1 +1,2 @@
-this is a learning repository
+#!/bin/bash
+This is a learning repository
