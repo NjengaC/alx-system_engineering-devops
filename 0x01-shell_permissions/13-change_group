@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo chown hello school
+sudo chgrp hello school
