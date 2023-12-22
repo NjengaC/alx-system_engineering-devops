@@ -4,5 +4,5 @@ vari="10"
 while ((vari > 0))
 do
 	echo "Best School"
-	vari=$[$vari - 1]
+	vari=$((vari - 1))
 done
