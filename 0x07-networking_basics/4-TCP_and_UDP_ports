@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 # This script displays listening ports
+# Can also use netstat -nl but ss is more modern
+ss -nl
