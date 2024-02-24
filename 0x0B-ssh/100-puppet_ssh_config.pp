@@ -1,5 +1,5 @@
 #Manifest setup client SSH config file ...without a password
-file { '/home/cyrus/.ssh/config':
+file { '/etc/ssh/ssh_config':
   ensure  => file,
   mode    => '0600',
   content => "\
