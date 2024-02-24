@@ -5,4 +5,4 @@ file { 'school':
   group   => 'www-data',
   content => 'I love Puppet',
   mode    => '0744'
- }
+  }
