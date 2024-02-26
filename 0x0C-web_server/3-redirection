@@ -6,4 +6,4 @@ sudo ufw allow 'Nginx HTTP'
 echo "Hello World" | sudo tee /var/www/html/index
 sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me /var/www/html/index.html permanent;' /etc/nginx/sites-available/default
 
-killall -s HUP nginx
+sudo service nginx restart
