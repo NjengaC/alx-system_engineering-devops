@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
+# Update package lists and install nginx
 
-# Update package lists optionally
-apt-get update
-
-# Install nginx
-apt-get install -y nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
 sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
-# Restart nginx
-killall -s HUP nginx
+sudo service nginx start
