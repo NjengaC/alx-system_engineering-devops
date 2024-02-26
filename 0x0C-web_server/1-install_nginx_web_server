@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Update package lists optionally
+# apt-get update
+
+# Install nginx
+apt-get install -y nginx
+
+# Create a default Nginx configuration file
+cat <<EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        echo "Hello World!";
+    }
+}
+EOF
+
+# Create a simple HTML page with "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart nginx
+killall -s HUP nginx
