@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # File transfers file given to server given as args
 # Check if the number of arguments is less than 4
 if [ $# -lt 4 ]; then
