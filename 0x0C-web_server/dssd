@@ -1,22 +1,26 @@
 #!/usr/bin/env bash
-# Update package lists and install nginx
+# configure Nginx to have a custom 404 page containing the string "C....
 
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo bash -c 'cat <<EOF > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
+sudo apt-get update
+sudo apt-get install -y nginx
 
-    server_name _;
+sudo mkdir /etc/nginx/html
+sudo touch /etc/nginx/html/index.html
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html
+sudo touch /etc/nginx/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/404.html
 
-    location / {
-        #echo "Hello World!";
-    }
-}
-EOF'
-sudo bash -c 'echo "Hello World!" > /var/www/html/index.html'
+sudo printf %s "server {
+        listen 80;
+        listen [::]:80 default_server;
+        root   /etc/nginx/html;
+        index  index.html index.htm;
+
+        error_page 404 /404.html;
+        location /404 {
+                root /etc/nginx/html;
+                internal;
+        }
+}" | sudo tee /etc/nginx/sites-available/default
 
 sudo service nginx restart

@@ -1,28 +1,27 @@
 #!/usr/bin/env bash
-# Configures /redirect_me as a "301 Moved Permanently".
+# configure Nginx to have a custom 404 page containing the string "C....
+
 sudo apt-get update
 sudo apt-get install -y nginx
 
-
+sudo touch /etc/nginx/html/index.html
 echo "Hello World!" | sudo tee /etc/nginx/html/index.html
-
+sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+sudo touch /etc/nginx/html/404.html
 echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/404.html
 
-printf %s "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root   /etc/nginx/html;
-    index  index.html index.htm;
-
-    location /redirect_me {
-        return 301 http://example.com/new-page;
-    }
-
-    error_page 404 /404.html;
-    location = /404.html {
-      root /var/www/html;
-      internal;
-    }
+sudo printf %s "server {
+        listen 80;
+        listen [::]:80 default_server;
+        root   /etc/nginx/html;
+        index  index.html index.htm;
+	location /redirect_me {
+		return 301 http://example.com/new-page;
+        error_page 404 /404.html;
+        location /404 {
+                root /etc/nginx/html;
+                internal;
+        }
 }" | sudo tee /etc/nginx/sites-available/default
-echo "301-moved permanently" | sudo tee /var/www/example.com/new-page;
+
 sudo service nginx restart
