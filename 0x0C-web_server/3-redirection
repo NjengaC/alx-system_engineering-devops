@@ -1,24 +1,10 @@
 #!/usr/bin/env bash
 # redirects permanently(301)
 
-sudo apt -y update
-sudo apt -y install nginx
-echo "Hello World!" | sudo tee /var/www/html/index.html
-echo "301 Moved Permanently" | sudo tee /var/www/html/redirect_destination.html
-sudo sed -i 's/server_name _;/server_name _;\n\trewrite \/redirect_me https:\/\/www.youtube.com\/watch\?v=QH2-TGUlwu4 permanent;/' /etc/nginx/sites-enabled/default
-sudo bash -c 'cat <<EOF > /etc/nginx/sites-available/redirect_me
-server {
-    listen 80;
-    server_name _;
+sudo apt-get -y update
+sudo apt-get -y install nginx
+#sudo ufw allow 'Nginx HTTP'
+echo "Hello World" | sudo tee /var/www/html/index
+sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me /var/www/html/index.html permanent;' /etc/nginx/sites-available/default
 
-    location /redirect_me {
-    return 301 http://\$host/redirect_destination.html;
-}
-
-# Other server configuration can go here if needed
-
-}
-EOF'
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
