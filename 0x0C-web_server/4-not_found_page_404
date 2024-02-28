@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # configure Nginx to have a custom 404 page containing the string "C....
 
-sudo apt-get update
+sudo apt-get -y update
 sudo apt-get install -y nginx
 
 sudo touch /etc/nginx/html/index.html
@@ -14,7 +14,7 @@ sudo printf %s "server {
         listen 80;
         listen [::]:80 default_server;
         root   /etc/nginx/html;
-        index  index.html index.htm;
+        index index.html index.nginx-debian.html index.htm;
 	location /redirect_me {
 		return 301 http://example.com/new-page;
         error_page 404 /404.html;
