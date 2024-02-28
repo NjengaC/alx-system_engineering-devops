@@ -1,27 +1,11 @@
 #!/usr/bin/env bash
-# configure Nginx to have a custom 404 page containing the string "C....
+# configures a 404-not found
 
 sudo apt-get -y update
-sudo apt-get install -y nginx
-
-sudo touch /etc/nginx/html/index.html
-echo "Hello World!" | sudo tee /etc/nginx/html/index.html
-sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
-sudo touch /etc/nginx/html/404.html
-echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/404.html
-
-sudo printf %s "server {
-        listen 80;
-        listen [::]:80 default_server;
-        root   /etc/nginx/html;
-        index index.html index.nginx-debian.html index.htm;
-	location /redirect_me {
-		return 301 http://example.com/new-page;
-        error_page 404 /404.html;
-        location /404 {
-                root /etc/nginx/html;
-                internal;
-        }
-}" | sudo tee /etc/nginx/sites-available/default
-
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo sed -i '/listen 80 default_server/a \        rewrite ^/redirect_me https://https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
+sudo sed -i "/index.nginx-debian.html;/a \        error_page 404 /custom_404.html;" /etc/nginx/sites-available/default
 sudo service nginx restart
