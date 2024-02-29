@@ -1,2 +1,1 @@
-#!/bin/bash
-This is a learning repository
+Attack is the best form of Defence
