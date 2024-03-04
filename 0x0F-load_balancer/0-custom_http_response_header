@@ -3,11 +3,14 @@
 # Update package repositories and install nginx
 sudo apt-get update
 sudo apt-get install -y nginx
+sudo mkdir -p /var/www/html
+sudo touch /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo touch /var/www/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
-# Set the hostname of the server
 hostname=$(hostname)
 
-# Configure Nginx to add custom response header
 cat <<EOF > /etc/nginx/sites-available/default
 server {
     listen 80 default_server;
