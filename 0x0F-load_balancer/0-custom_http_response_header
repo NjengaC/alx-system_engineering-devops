@@ -14,10 +14,10 @@ echo "Ceci n'est pas une page" > /var/www/html/404.html
 printf %s "server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    add_header X-Served-By \$hostname;
     root   /var/www/html;
     index  index.html index.htm;
-
+    server_name_;
+    add_header X-Served-By $hostname;
     location /redirect_me {
         return 301 http://google.com/;
     }
