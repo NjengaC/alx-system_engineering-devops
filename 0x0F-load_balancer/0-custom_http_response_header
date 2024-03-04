@@ -1,15 +1,32 @@
 #!/usr/bin/env bash
-#Configure Nginx so that its HTTP response contains a custom header (on web-01 and web-02)
-#The name of the custom HTTP header must be X-Served-By
-#The value of the custom HTTP header must be the hostname of the server Nginx is running on
+# Configure server 2 like server one 
+# shellcheck disable=SC2154
 
-#Install nginx to the remote server
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get install -y nginx
-echo 'Hello World!' | sudo tee /var/www/index.html
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html
-sudo sed -i "46i error_page 404 /custom_404.html;" /etc/nginx/sites-available/default
 
-#configure the nginx server
-sudo sed -i '24i\\n\tadd_header X-Served-By $hostname;' /etc/nginx/sites-available/default
-sudo service nginx restart
+sudo mkdir -p /var/www/html
+sudo touch /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo touch /var/www/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root   /var/www/html;
+    index  index.html index.htm;
+    server_name_;
+    add_header X-Served-By $hostname;
+    location /redirect_me {
+        return 301 http://google.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" | sudo tee /etc/nginx/sites-available/default
+
+sudo service nginx start
