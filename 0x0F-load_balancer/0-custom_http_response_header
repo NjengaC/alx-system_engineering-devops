@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
 # Update package repositories and install nginx
+
 sudo apt-get update
 sudo apt-get install -y nginx
 sudo mkdir -p /var/www/html
@@ -16,14 +16,14 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    # Add custom response header
     add_header X-Served-By $hostname;
 
-    # Serve static files from /var/www/html
     root /var/www/html;
     index index.html index.htm;
 
-    # Handle errors
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
     error_page 404 /404.html;
     location /404 {
         root /var/www/html;
