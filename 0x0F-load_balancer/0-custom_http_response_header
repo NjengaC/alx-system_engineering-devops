@@ -1,32 +1,33 @@
 #!/usr/bin/env bash
-# Configure server 2 like server one 
-# shellcheck disable=SC2154
 
-sudo apt-get update
-sudo apt-get install -y nginx
+# Update package repositories and install nginx
+apt-get update
+apt-get install -y nginx
 
-sudo mkdir -p /var/www/html
-sudo touch /var/www/html/index.html
-echo "Hello World!" | sudo tee /var/www/html/index.html
-sudo touch /var/www/html/404.html
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+# Set the hostname of the server
+hostname=$(hostname)
 
-printf %s "server {
+# Configure Nginx to add custom response header
+cat <<EOF > /etc/nginx/sites-available/default
+server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    root   /var/www/html;
-    index  index.html index.htm;
-    server_name_;
-    add_header X-Served-By $hostname;
-    location /redirect_me {
-        return 301 http://google.com/;
-    }
 
+    # Add custom response header
+    add_header X-Served-By $hostname;
+
+    # Serve static files from /var/www/html
+    root /var/www/html;
+    index index.html index.htm;
+
+    # Handle errors
     error_page 404 /404.html;
     location /404 {
-      root /var/www/html;
-      internal;
+        root /var/www/html;
+        internal;
     }
-}" | sudo tee /etc/nginx/sites-available/default
+}
+EOF
 
-sudo service nginx start
+# Restart Nginx to apply the changes
+service nginx restart
