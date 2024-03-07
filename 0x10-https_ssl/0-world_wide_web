@@ -18,7 +18,7 @@ query_dns() {
     fi
 
     for sub in "${subdomains[@]}"; do
-        output=$(dig +short "$sub.$domain")
+        output=$(dig +short "$sub.$domain" | awk '{print $1}')
         if [ -n "$output" ]; then
             echo "The subdomain $sub is a A record and points to $output"
         fi
@@ -33,3 +33,4 @@ fi
 
 # Call the function to query DNS records
 query_dns "$@"
+
