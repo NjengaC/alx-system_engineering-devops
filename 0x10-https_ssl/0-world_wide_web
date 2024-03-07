@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Function to display usage message
+display_usage() {
+    echo "Usage: $0 domain [subdomain]"
+    echo "Example: $0 holberton.online"
+    echo "Example: $0 holberton.online web-02"
+}
+
+# Function to query DNS records and display information
+query_dns() {
+    domain=$1
+    subdomain=$2
+
+    if [ -z "$subdomain" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
+    else
+        subdomains=("$subdomain")
+    fi
+
+    for sub in "${subdomains[@]}"; do
+        output=$(dig +short "$sub.$domain")
+        if [ -n "$output" ]; then
+            echo "The subdomain $sub is a A record and points to $output"
+        fi
+    done
+}
+
+# Check if number of arguments is correct
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    display_usage
+    exit 1
+fi
+
+# Call the function to query DNS records
+query_dns "$@"
