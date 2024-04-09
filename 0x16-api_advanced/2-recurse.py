@@ -1,7 +1,10 @@
+#!/usr/bin/python3
+"""Recursively fetches titles of all hot articles for a given subreddit."""
 import requests
 
+
 def recurse(subreddit, hot_list=[], after=None):
-    """Recursively fetches the titles of all hot articles for a given subreddit."""
+    """Recursively fetches titles of all hot articles for a given subreddit."""
     if after is None:
         url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     else:
@@ -15,7 +18,7 @@ def recurse(subreddit, hot_list=[], after=None):
         posts = response.json()['data']['children']
         for post in posts:
             hot_list.append(post['data']['title'])
-        
+
         after = response.json()['data']['after']
         if after is not None:
             recurse(subreddit, hot_list, after)
