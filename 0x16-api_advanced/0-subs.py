@@ -8,7 +8,7 @@ import requests
 
 def number_of_subscribers(subreddit):
     """ Function returns a list of subscibers for a certain subreddit """
-    url = f"https://www.reddit.com/r/{subreddit}/about.json "
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
 
     headers = {'User-Agent': 'MyBot/0.1'}
 
