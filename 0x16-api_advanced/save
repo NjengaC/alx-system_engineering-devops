@@ -21,7 +21,8 @@ def top_ten(subreddit):
 
     # Check if subreddit is provided and is a string
     if not subreddit or not isinstance(subreddit, str):
-        return None
+        print("None")
+        sys.exit()
 
     try:
         # Send GET request to Reddit API
@@ -38,4 +39,4 @@ def top_ten(subreddit):
         # Print titles of top 10 posts
         [print(title) for title in titles]
     except Exception:
-        return None
+        print("None")
