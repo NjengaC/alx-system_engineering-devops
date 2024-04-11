@@ -10,12 +10,12 @@ def number_of_subscribers(subreddit=None):
         return 0
 
     try:
-        r = requests.get('http://www.reddit.com/r/{}/about.json'.
+        result = requests.get('http://www.reddit.com/r/{}/about.json'.
                          format(subreddit),
                          headers={'User-Agent': 'mycoolapp/1.0'})
-        r.raise_for_status()
-        data = r.json()
+        result.raise_for_status()
+        data = result.json()
         subscribers = data.get("data", {}).get("subscribers", 0)
         return subscribers
-    except requests.RequestException as e:
+    except Exception:
         return 0
