@@ -11,8 +11,8 @@ def number_of_subscribers(subreddit=None):
 
     try:
         result = requests.get('http://www.reddit.com/r/{}/about.json'.
-                         format(subreddit),
-                         headers={'User-Agent': 'mycoolapp/1.0'})
+                              format(subreddit),
+                              headers={'User-Agent': 'mycoolapp/1.0'})
         result.raise_for_status()
         data = result.json()
         subscribers = data.get("data", {}).get("subscribers", 0)
