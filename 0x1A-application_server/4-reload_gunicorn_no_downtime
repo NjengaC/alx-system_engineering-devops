@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Identify Gunicorn Process
+GUNICORN_PID=$(ps auxf | grep '[g]unicorn' | awk '{print $2}')
+
+if [ -z "$GUNICORN_PID" ]; then
+    echo "Gunicorn is not running."
+    exit 1
+fi
+
+# Gracefully Reload Gunicorn
+kill -s HUP "$GUNICORN_PID"
+
+echo "Gunicorn is being gracefully restarted..."
+
+# Verify Gunicorn Restart
+sleep 2  # Wait for Gunicorn to restart
+NEW_GUNICORN_PID=$(ps auxf | grep '[g]unicorn' | awk '{print $2}')
+
+if [ "$NEW_GUNICORN_PID" != "$GUNICORN_PID" ]; then
+    echo "Gunicorn has been restarted successfully."
+else
+    echo "Failed to restart Gunicorn."
+fi
