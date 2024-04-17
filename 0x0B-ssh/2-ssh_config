@@ -1,5 +1,5 @@
 #SSH client configuration
 Host ubuntu
-    HostName 54.144.140.209
+    HostName 34.229.137.208
     IdentityFile ~/.ssh/school
     PasswordAuthentication no

@@ -28,8 +28,8 @@ frontend www-https
 
 backend www-backend
     balance roundrobin
-    server 335870-web-01 54.144.140.209:80 check
-    server 335870-web-02 34.202.233.3:80 check
+    server 335870-web-01 34.229.137.208:80 check
+    server 335870-web-02 100.25.181.105:80 check
 
 frontend http-in
     bind *:80
