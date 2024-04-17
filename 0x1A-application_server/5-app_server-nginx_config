@@ -11,6 +11,6 @@ server {
     }
 
     location /static/ {
-        alias /path/to/AirBnB_clone_v4/web_dynamic/static/;
+        alias ~/AirBnB_clone_v4/web_dynamic/static/;
     }
 }
