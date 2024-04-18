@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-
-# Find all Gunicorn Process IDs (PIDs)
-PIDS=$(pgrep gunicorn)
-
-# Gracefully Restart Gunicorn for each PID
-for PID in $PIDS; do
-	kill -HUP "$PID"
-done
+# Restart gunicorn gracefully
+PID=$(pgrep gunicorn | head -n 1)
+kill -HUP "$PID"
