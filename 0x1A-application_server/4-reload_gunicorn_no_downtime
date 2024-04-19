@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
-# Restart gunicorn gracefully
-PID=$(pgrep gunicorn | head -n 1)
-kill -HUP "$PID"
+
+# Get the master process ID of Gunicorn
+MASTER_PID=$(pgrep gunicorn)
+
+# Get the list of worker process IDs
+WORKER_PIDS=$(pgrep -P "$MASTER_PID")
+
+# Send SIGHUP signal to each worker process
+for PID in $WORKER_PIDS; do
+    kill -HUP "$PID"
+done
