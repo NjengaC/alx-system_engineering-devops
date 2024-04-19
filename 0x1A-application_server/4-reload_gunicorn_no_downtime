@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # Get the master process ID of Gunicorn
 
-MASTER_PID=$(pgrep gunicorn)
+if ! pgrep -f gunicorn &> /dev/null; then
+    exit 1
+fi
 
-WORKER_PIDS=$(pgrep -P "$MASTER_PID")
+MASTER_PID=$(pgrep -f gunicorn | head -n 1)
 
-for PID in $WORKER_PIDS; do
-    sudo kill "$PID"
-done
-sudo service gunicorn restart
+kill -s SIGUSR2 "$MASTER_PID"
