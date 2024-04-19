@@ -8,3 +8,4 @@ WORKER_PIDS=$(pgrep -P "$MASTER_PID")
 for PID in $WORKER_PIDS; do
     sudo kill "$PID"
 done
+sudo service gunicorn restart
