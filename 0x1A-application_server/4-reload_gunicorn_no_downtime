@@ -6,6 +6,5 @@ MASTER_PID=$(pgrep gunicorn)
 WORKER_PIDS=$(pgrep -P "$MASTER_PID")
 
 for PID in $WORKER_PIDS; do
-    kill -HUP "$PID"
+    sudo kill "$PID"
 done
-echo "OK"
