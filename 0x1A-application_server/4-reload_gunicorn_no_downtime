@@ -6,7 +6,6 @@ MASTER_PID=$(pgrep gunicorn)
 # Get the list of worker process IDs
 WORKER_PIDS=$(pgrep -P "$MASTER_PID")
 
-# Send SIGHUP signal to each worker process
 for PID in $WORKER_PIDS; do
     kill -HUP "$PID"
 done
